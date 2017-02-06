@@ -1,0 +1,33 @@
+from pymongo import MongoClient
+
+#change from local server to Homer server
+server = MongoClient(127.0.0.1)
+#server = MongoClient('homer.stuy.edu')
+
+db = server.teamcoddiedb
+
+c = db.students
+
+fObjP = open("peeps.csv")
+p=csv.DictReader(fObjP)
+
+
+fObjC = open("courses.csv")
+co = csv.DictReader(fObjC)
+
+
+for i in p:
+    dPeeps = {"name":i["name"], "age":i["age"], "id"=i["id"]}
+
+    for j in co:
+        if j["id"] == dPeeps["id"]:
+            dPeeps[j["code"]]= j["mark"]
+            
+    print dPeeps
+    c.insert_one(dPeeps)
+
+
+
+
+
+    
