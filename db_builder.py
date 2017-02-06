@@ -15,16 +15,19 @@ c = db.students
 fObjP = open("peeps.csv")
 p=csv.DictReader(fObjP)
 
-fObjC = open("courses.csv")
-co = csv.DictReader(fObjC)
+
 
 
 print p
 for i in p:
     #creates a dictionary of the peeps data: name, age, id
     dPeeps = {"name":i["name"], "age":i["age"], "id":i["id"]}
-
+    
+    fObjC = open("courses.csv")
+    co = csv.DictReader(fObjC)
+    
     for j in co:
+       # print j
         #if id from peeps data matches with id from courses data,
         #add the mark for the specific course to the dictionary
         if j["id"] == dPeeps["id"]:
