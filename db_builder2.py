@@ -1,3 +1,4 @@
+
 from pymongo import MongoClient
 import csv
 
@@ -7,18 +8,18 @@ import csv
 server = MongoClient("149.89.150.100")
 
 #creating the database
-db = server.teamcoddiedb
+db = server.teamcoddiedb2
 
 #creating the collection
 studentCollection = db.students
 
+'''Commented out so that we don't have any more additions
+to the database
+
+
 #opening up the csv/data files
 fObjP = open("peeps.csv")
 people=csv.DictReader(fObjP)
-
-
-
-
 
 for i in people:
     #creates a dictionary of the peeps data: name, age, id
@@ -34,22 +35,35 @@ for i in people:
         if j["id"] == dPeeps["id"]:
             dPeeps[j["code"]]= j["mark"]
             
-#    print dPeeps
+    print dPeeps
     #insert the dictionary/document into the collection
     studentCollection.insert_one(dPeeps)
+'''
 
+def displayInfo():
+	for student in studentCollection.find():
+		#print student
+		sum = 0		
+		nOC = 0 #number of courses
+		if "softdev" in student:
+			sum = sum + int(student["softdev"])
+			nOC = nOC + 1
+		if "systems" in student:
+			sum = sum + int(student["systems"])
+			nOC = nOC + 1
+		if "greatbooks" in student:
+			sum = sum + int(student["greatbooks"])
+			nOC = nOC + 1
+		if "ceramics" in student:
+			sum = sum + int(student["ceramics"])
+			nOC = nOC + 1
 
-def averageMark(name):
-    currentStudent= server.db.studentCollection.find({"name":name})
-    print currentStudent
-   # softdev, systems, greatbooks, ceramics
-    for i in currentStudent:
-        print i
-        print
-        print
+		average = sum / nOC
 
-#def displayAverage():
-    
+		
+		print "Name: "+student["name"]
+		print "ID: "+student["id"]
+		print "Average: "+ str(average)
+    		print "----------------------"
 
-averageMark("kruder")
-    
+displayInfo()
