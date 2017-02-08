@@ -21,6 +21,7 @@ to the database
 fObjP = open("peeps.csv")
 people=csv.DictReader(fObjP)
 
+
 for i in people:
     #creates a dictionary of the peeps data: name, age, id
     dPeeps = {"name":i["name"], "age":i["age"], "id":i["id"]}
@@ -67,3 +68,25 @@ def displayInfo():
     		print "----------------------"
 
 displayInfo()
+
+print
+print
+print
+
+teacherCollection = db.teachers
+
+fObjT = open("teachers.csv")
+teachers = csv.DictReader(fObjT)
+
+for i in teachers:	
+	dTeacher = {"teacher":i["teacher"], "class":i["code"], "students":[]}
+	
+	for student in studentCollection.find():
+		if i["code"] in student:
+			dTeacher["students"].append(student["id"])
+	#the list contains the id numbers, but in tuple form
+	#ie [u'1',u'2',u'6']
+	print dTeacher
+	print	
+	print
+	teacherCollection.insert_one(dTeacher)
